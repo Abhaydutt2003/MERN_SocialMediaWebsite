@@ -1,33 +1,37 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import mongoose from 'mongoose';
 import connectDb from './config/DBConfig.js';
 
 //import all the routes
+import postRouter from './routes/posts.js'
 
+//the port will be in the ENV file once we deploy the project
+const PORT = process.env.PORT || 5000;
 
 //to use env file in our project
 dotenv.config();
 
+//create the app
 const app = express();
-//middleware for recognizing the incoming request object as JSON object
-app.use(express.json({limit:"30mb",extended:true}));
-
-//used to parse the data in req.body, used for POST and PUT request
-app.use(express.urlencoded({ extended: false }));
-
-//CROSS ORIGIN RESOURCE SHARING
-app.use(cors());
-
-const PORT = process.env.PORT || 5000;
 
 //function defined in the config folder 
 connectDb();
 
+//CROSS ORIGIN RESOURCE SHARING
+app.use(cors());
 
-app.use();
+
+//middleware for recognizing the incoming request object as JSON object
+app.use(express.json({limit:"30mb",extended:true}));
+//used to parse the data in req.body, used for POST and PUT request
+app.use(express.urlencoded({ extended: false }));
+
+//use the route handlers
+app.use('/posts',postRouter);
+
+
 
 //once the mongoose connection is made
 mongoose.connection.once("open",()=>{
