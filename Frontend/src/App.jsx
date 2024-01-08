@@ -6,13 +6,12 @@ import { useEffect } from "react";
 import { setAllPostsAction } from "./actions/postActions";
 import { store } from "./store";
 const App = () => {
-
-  useEffect(()=>{
-    (async ()=>{
+  useEffect(() => {
+    (async () => {
       let func = setAllPostsAction(store);
       await func();
-    })()
-  },[]);
+    })();
+  }, []);
 
   return (
     <Container maxWidth="lg">
@@ -25,12 +24,7 @@ const App = () => {
         <Typography className="heading" variant="h2" align="center">
           Memories
         </Typography>
-        <img
-          className="image"
-          src={someImage}
-          alt="memories"
-          height="50"
-        ></img>
+        <img className="image" src={someImage} alt="memories" height="50"></img>
       </AppBar>
       <Grow in>
         <Container>
