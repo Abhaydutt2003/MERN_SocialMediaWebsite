@@ -12,7 +12,7 @@ export const convertBase64 = (file) =>
     console.log(file);
     //file reader is async
     const fileReader = new FileReader();
-    //resolve the promise when the file is converted
+    //resolve the promise when the file is read 
     fileReader.onloadend = () => {
         resolve(fileReader.result);
     };

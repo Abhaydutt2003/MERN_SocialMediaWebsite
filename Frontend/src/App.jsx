@@ -37,7 +37,7 @@ const App = () => {
             <Grid item xs={12} sm={7}>
               <Posts></Posts>
             </Grid>
-            <Grid item xs={12} sm={7}>
+            <Grid item xs={12} sm={5}>
               <Form></Form>
             </Grid>
           </Grid>

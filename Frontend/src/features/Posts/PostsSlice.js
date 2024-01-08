@@ -10,16 +10,17 @@ const postsSlice = createSlice({
     initialState:defaultState,
     reducers:{
         setAllPosts:(state,action)=>{
+            //reducer to set the state of the post
             state.posts = action.payload;
         },
-        createPosts:(state,action)=>{
+        addPost:(state,action)=>{
             return action.payload;
         }
     }
 });
 
 //export all the reducers for usage
-export const {setAllPosts,createPosts} = postsSlice.actions;
+export const {setAllPosts,addPost} = postsSlice.actions;
 
 export default postsSlice.reducer;
 

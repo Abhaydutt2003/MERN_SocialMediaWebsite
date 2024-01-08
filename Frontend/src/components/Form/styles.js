@@ -4,7 +4,7 @@ export default {
         display:"flex",
         flexWrap:'wrap',
         justifyContent:'center',
-        padding:'10px'
+        padding:'10px',
     },
     fileInput:{
         width:'97%',
