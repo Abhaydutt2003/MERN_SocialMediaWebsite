@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-
+//MongoDb always creates an index for _id, which can be further used in react
 const PostSchema = new Schema({
     title:String,
     message:String,

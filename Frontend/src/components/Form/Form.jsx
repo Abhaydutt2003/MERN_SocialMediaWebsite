@@ -2,6 +2,8 @@ import { TextField, Button, Typography, Paper, Grid } from "@mui/material";
 import { useState } from "react";
 import { convertBase64 } from "../../utils";
 import "./style.css";
+import { createNewPost } from "../../actions/postActions";
+import {store} from '../../store';
 
 const Form = () => {
   const [postData, setPostData] = useState({
@@ -13,22 +15,27 @@ const Form = () => {
   });
 
   //function to handle the form submit
-  const handleSubmit = (event) => {
-     event.preventDefault();
-    // const formData = new FormData(event.currentTarget);
-    // console.log(Object.fromEntries(formData));
+  const handleSubmit = async(event) => {
+    //prevent the default behaviour
+    event.preventDefault();
+    //create a new post using postActions
+    await createNewPost(store,postData)();
+    //clear the form after creating the post
+    clear();
   };
 
   //function to handle file input
   const handleInput = async (event) => {
     const files = event.target.files[0];
     const base64 = await convertBase64(files);
-    console.log(base64);
+    //console.log(base64);
     setPostData({ ...postData, selectedFile: base64 });
   };
 
   //function to clear the form
-  const clear = () => {};
+  const clear = () => {
+    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+  };
 
   return (
     <Paper>
@@ -69,7 +76,7 @@ const Form = () => {
               name="message"
               variant="outlined"
               label="message"
-              value={postData.creator}
+              value={postData.message}
               onChange={(event) =>
                 setPostData({ ...postData, message: event.target.value })
               }
