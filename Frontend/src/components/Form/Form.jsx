@@ -1,11 +1,31 @@
 import { TextField, Button, Typography, Paper, Grid } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { convertBase64 } from "../../utils";
 import "./style.css";
-import { createNewPost } from "../../actions/postActions";
-import {store} from '../../store';
+import {
+  createNewPost,
+  postUpdate,
+  setAllPostsAction,
+} from "../../actions/postActions";
+import { store } from "../../store";
+import { useSelector } from "react-redux";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
+  //fetch a particular post if we have a id provided
+  const { posts } = useSelector((state) => {
+    return state.postsState;
+  });
+  let post = posts.find((post) => {
+    if (post._id == currentId) {
+      return post;
+    } else {
+      return null;
+    }
+  });
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
+  //could have used FormData Api instead of state
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -15,12 +35,19 @@ const Form = () => {
   });
 
   //function to handle the form submit
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     //prevent the default behaviour
     event.preventDefault();
-    //create a new post using postActions
-    await createNewPost(store,postData)();
-    //clear the form after creating the post
+    if (currentId) {
+      //update the backend
+      await postUpdate(store, postData, currentId)();
+      //update the redux store
+      await setAllPostsAction(store)();
+    } else {
+      //create a new post using postActions
+      await createNewPost(store, postData)();
+    }
+    //clear the form after creating or upadating the post
     clear();
   };
 
@@ -34,7 +61,13 @@ const Form = () => {
 
   //function to clear the form
   const clear = () => {
-    setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+    setPostData({
+      creator: "",
+      title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
   };
 
   return (
@@ -43,7 +76,7 @@ const Form = () => {
         className="form"
         autoComplete="off"
         noValidate
-        onSubmit={(event)=>handleSubmit(event)}
+        onSubmit={(event) => handleSubmit(event)}
       >
         <Grid alignItems="center">
           <Grid item>

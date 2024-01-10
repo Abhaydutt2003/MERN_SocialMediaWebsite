@@ -2,14 +2,14 @@ import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
 import someImage from "./images/SomeImage.png";
 import { Form, Posts } from "./components/index";
 import "./appTheme.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { setAllPostsAction } from "./actions/postActions";
 import { store } from "./store";
 const App = () => {
+  const [currentId,setCurrentId] = useState(null);
   useEffect(() => {
     (async () => {
-      let func = setAllPostsAction(store);
-      await func();
+      await setAllPostsAction(store)();
     })();
   }, []);
 
@@ -35,10 +35,10 @@ const App = () => {
             spacing={3}
           >
             <Grid item xs={12} sm={7}>
-              <Posts></Posts>
+              <Posts setCurrentId = {setCurrentId}></Posts>
             </Grid>
             <Grid item xs={12} sm={5}>
-              <Form></Form>
+              <Form currentId = {currentId} setCurrentId = {setCurrentId}></Form>
             </Grid>
           </Grid>
         </Container>

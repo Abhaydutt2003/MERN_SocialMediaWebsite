@@ -17,12 +17,24 @@ const postsSlice = createSlice({
         addPost:(state,action)=>{
             //add the post after creating it 
             state.posts = [...state.posts,action.payload];
+        },
+        updatePost:(state,action)=>{
+            //update the post after finding it
+            console.log(action.payload);
+            let updatedPosts = state.posts.map((post)=>{
+                if(post._id == action.payload._id){
+                    return action.payload;
+                }else{
+                    return post;
+                }
+            })
+            state.posts = updatedPosts;
         }
     }
 });
 
 //export all the reducers for usage
-export const {setAllPosts,addPost} = postsSlice.actions;
+export const {setAllPosts,addPost,updatePost} = postsSlice.actions;
 
 export default postsSlice.reducer;
 

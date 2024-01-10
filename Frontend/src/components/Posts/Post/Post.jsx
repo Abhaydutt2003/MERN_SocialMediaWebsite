@@ -8,19 +8,18 @@ import {
 } from "@mui/material";
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
-import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import EditIcon from "@mui/icons-material/Edit";
+import dayjs from "dayjs";
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
+import './style.css';
 
-import day from "dayjs";
-import advancedFormat from "dayjs/plugin/advancedFormat";
-day.extend(advancedFormat);
 
-import "./style.css";
-
-const Post = ({ post }) => {
-  console.log(post);
-  const date = day(post.createdAt).format("hh:mm a - MMM Do, YYYY");
+const Post = ({ post, setCurrentId }) => {
+  //get the realtive time from when the post was created
+  const relativeTime = dayjs(post.createdAt).fromNow();
   return (
-    <Card className="card" sx={{borderRadius:'15px'}}>
+    <Card className="card" sx={{ borderRadius: "15px" }}>
       <CardMedia
         className="media"
         image={
@@ -31,15 +30,19 @@ const Post = ({ post }) => {
       ></CardMedia>
       <div className="overlay">
         <Typography variant="h6">{post.creator}</Typography>
-        <Typography variant="body2">{date}</Typography>
+        <Typography variant="body2">{relativeTime}</Typography>
       </div>
       <div className="overlay2">
-        <Button style={{ color: "white" }} size="small" onClick={() => {}}>
-          <MoreHorizIcon fontSize="small"></MoreHorizIcon>
+        <Button
+          style={{ color: "white" }}
+          size="small"
+          onClick={() => setCurrentId(post._id)}
+        >
+          <EditIcon fontSize="medium"></EditIcon>
         </Button>
       </div>
       <div className="details">
-        <Typography variant="body2" ccolor="textSecondary" component="h2">
+        <Typography variant="body2" color="textSecondary" component="h2">
           {post.tags.map((tag) => {
             return `#${tag}`;
           })}
