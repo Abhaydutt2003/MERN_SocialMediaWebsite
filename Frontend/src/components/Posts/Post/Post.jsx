@@ -10,14 +10,25 @@ import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import dayjs from "dayjs";
-import relativeTime from 'dayjs/plugin/relativeTime';
+import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
-import './style.css';
-
+import "./style.css";
+import { store } from "../../../store";
+import { deletePostAction } from "../../../actions/postActions";
+import { useDispatch } from "react-redux";
+import { deletePost } from "../../../features/Posts/PostsSlice";
 
 const Post = ({ post, setCurrentId }) => {
   //get the realtive time from when the post was created
   const relativeTime = dayjs(post.createdAt).fromNow();
+  const dispatch = useDispatch();
+  //handle delete post
+  const handleDelete = async () => {
+    //update the backend
+    await deletePostAction(store, post._id)();
+    //update the frontend
+    dispatch(deletePost(post._id));
+  };
   return (
     <Card className="card" sx={{ borderRadius: "15px" }}>
       <CardMedia
@@ -61,7 +72,7 @@ const Post = ({ post, setCurrentId }) => {
           <ThumbUpAltIcon fontSize="small" />
           Like {post.likeCount}
         </Button>
-        <Button size="small" color="primary" onClick={() => {}}>
+        <Button size="small" color="primary" onClick={handleDelete}>
           <DeleteIcon fontSize="small" />
         </Button>
       </CardActions>

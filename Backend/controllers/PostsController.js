@@ -2,7 +2,7 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
-
+//fetch all the posts from the db
 export const getPosts = async(req,res)=>{
     try{
         const postMessages = await PostMessage.find();
@@ -12,7 +12,7 @@ export const getPosts = async(req,res)=>{
     }
 }
 
-
+//creating a post
 export const createPost = async (req,res)=>{
     try{
         const result = await PostMessage.create(req.body);
@@ -22,7 +22,7 @@ export const createPost = async (req,res)=>{
     }
 }
 
-
+//to update a post
 export const updatePost = async(req,res)=>{
     const {id:_id} = req.params;
     const post = req.body;
@@ -30,4 +30,13 @@ export const updatePost = async(req,res)=>{
     //by setting {new:true} we will be actually be getting the new updated doc
     const updatedPost = await PostMessage.findByIdAndUpdate(_id,post,{new:true});
     res.json(updatedPost);
+}
+
+
+//to delete a post
+export const deletePost = async(req,res)=>{
+    const {id:_id} = req.params;
+    if(!mongoose.Types.ObjectId.isValid(_id))return res.status(404).send('No post with that id exists');
+    const updatedPosts = await PostMessage.findByIdAndDelete(_id,{new:true});
+    res.json(updatedPosts);
 }

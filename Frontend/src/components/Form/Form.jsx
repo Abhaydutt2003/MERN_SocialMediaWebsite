@@ -4,11 +4,11 @@ import { convertBase64 } from "../../utils";
 import "./style.css";
 import {
   createNewPost,
-  postUpdate,
-  setAllPostsAction,
+  postUpdateAction,
 } from "../../actions/postActions";
 import { store } from "../../store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {updatePost} from '../../features/Posts/PostsSlice';
 
 const Form = ({ currentId, setCurrentId }) => {
   //fetch a particular post if we have a id provided
@@ -34,15 +34,16 @@ const Form = ({ currentId, setCurrentId }) => {
     selectedFile: "",
   });
 
+  const dispatch = useDispatch();
   //function to handle the form submit
   const handleSubmit = async (event) => {
     //prevent the default behaviour
     event.preventDefault();
     if (currentId) {
       //update the backend
-      await postUpdate(store, postData, currentId)();
+      const newPost = await postUpdateAction(store, postData, currentId)();
       //update the redux store
-      await setAllPostsAction(store)();
+      dispatch(updatePost(newPost));
     } else {
       //create a new post using postActions
       await createNewPost(store, postData)();
@@ -80,7 +81,9 @@ const Form = ({ currentId, setCurrentId }) => {
       >
         <Grid alignItems="center">
           <Grid item>
-            <Typography variant="h6">Creating a Memory</Typography>
+            <Typography variant="h6">
+              {`${currentId ? "Editing " : "Creating "}`}a Memory
+            </Typography>
           </Grid>
           <Grid item>
             <TextField

@@ -1,4 +1,9 @@
-import { setAllPosts, addPost, updatePost } from "../features/Posts/PostsSlice";
+import {
+  setAllPosts,
+  addPost,
+  updatePost,
+  deletePost,
+} from "../features/Posts/PostsSlice";
 import { customFetch } from "../utils";
 
 //action to do the initial fetch
@@ -23,11 +28,10 @@ export const createNewPost = (store, postData) => async () => {
   }
 };
 
-export const postUpdate = (store, postData, currentId) => async () => {
-  console.log(postData, currentId);
+export const postUpdateAction = (store, postData, currentId) => async () => {
   try {
     const response = await customFetch.patch(`/${currentId}`, postData);
-    store.dispatch(updatePost(response));
+    return response;
   } catch (error) {
     return console.log(error);
   }
@@ -35,4 +39,15 @@ export const postUpdate = (store, postData, currentId) => async () => {
 //whenever a post is updated, the changes are made in the backend , and not
 //in the redux store, need to make a call tp update the store
 
+export const deletePostAction = (store, currentId) => async () => {
+  try {
+    //update the backend
+    await customFetch.delete(`${currentId}`);
+  } catch (error) {
+    //never do error.message
+    return console.log(error);
+  }
+};
+
 //TODO use toast to indicate success whenever the post is created
+//also add a promise toast for postUpdate
