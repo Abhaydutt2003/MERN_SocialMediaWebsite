@@ -20,9 +20,9 @@ export const setAllPostsAction = (store) => async () => {
 export const createNewPost = (store, postData) => async () => {
   try {
     //send the post request
-    const response = await customFetch.post("/", postData);
+    const {data} = await customFetch.post("/", postData);
     //use the addPost reducer
-    store.dispatch(addPost(response));
+    store.dispatch(addPost(data));
   } catch (error) {
     return console.log(error);
   }
@@ -30,8 +30,8 @@ export const createNewPost = (store, postData) => async () => {
 
 export const postUpdateAction = (store, postData, currentId) => async () => {
   try {
-    const response = await customFetch.patch(`/${currentId}`, postData);
-    return response;
+    const {data} = await customFetch.patch(`/${currentId}`, postData);
+    return data;
   } catch (error) {
     return console.log(error);
   }
@@ -48,6 +48,14 @@ export const deletePostAction = (store, currentId) => async () => {
     return console.log(error);
   }
 };
+
+export const updateLikeAction = async(currentId)=>{
+  try{
+    await customFetch.patch(`/${currentId}/likePost`);
+  }catch(error){
+    return console.log(error);
+  }
+}
 
 //TODO use toast to indicate success whenever the post is created
 //also add a promise toast for postUpdate

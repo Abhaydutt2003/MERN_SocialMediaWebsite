@@ -40,3 +40,15 @@ export const deletePost = async(req,res)=>{
     const updatedPosts = await PostMessage.findByIdAndDelete(_id,{new:true});
     res.json(updatedPosts);
 }
+
+
+//to update the likes in a post
+export const updateLikes = async(req,res)=>{
+    const {id:_id} = req.params;
+    if(!mongoose.Types.ObjectId.isValid(_id))return res.status(404).send('No post with that id exists');
+    const thePost = await PostMessage.findById(_id);
+    thePost.likeCount++;
+    let updatedPost = await thePost.save();
+    res.json(updatedPost);
+}
+

@@ -27,21 +27,33 @@ const postsSlice = createSlice({
                 }else{
                     return post;
                 }
-            })
+            });
             state.posts = updatedPosts;
         },
         deletePost:(state,action)=>{
             //remove the post from the redux store
             let updatedPosts = state.posts.filter((post)=>{
-                return post._id != action.payload._id;
+                return post._id != action.payload;
             });
+            console.log(updatedPosts);
             state.posts = updatedPosts;
+        },
+        increaseLike:(state,action)=>{
+            //increase the number of likes
+            let thePost = state.posts.find((post)=>{
+                return post._id == action.payload;
+            });
+            thePost.likeCount++;
         }
     }
 });
 
 //export all the reducers for usage
-export const {setAllPosts,addPost,updatePost,deletePost} = postsSlice.actions;
+export const {setAllPosts,addPost,updatePost,deletePost,increaseLike} = postsSlice.actions;
 
 export default postsSlice.reducer;
 
+
+
+//persist storage does not make sense for posts , because some other user might
+//change the backend , so you need to fetch everytime (i could be wrong)
