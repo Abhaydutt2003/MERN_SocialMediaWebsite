@@ -14,9 +14,12 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import "./style.css";
 import { store } from "../../../store";
-import { deletePostAction,updateLikeAction } from "../../../actions/postActions";
+import {
+  deletePostAction,
+  updateLikeAction,
+} from "../../../actions/postActions";
 import { useDispatch } from "react-redux";
-import { deletePost,increaseLike } from "../../../features/Posts/PostsSlice";
+import { deletePost, increaseLike } from "../../../features/Posts/PostsSlice";
 
 const Post = ({ post, setCurrentId }) => {
   //get the realtive time from when the post was created
@@ -29,12 +32,12 @@ const Post = ({ post, setCurrentId }) => {
     //update the frontend
     dispatch(deletePost(post._id));
   };
-  const increaseLikes = async ()=>{
+  const increaseLikes = async () => {
     //update the backend
     await updateLikeAction(post._id);
     //update the frontend
     dispatch(increaseLike(post._id));
-  }
+  };
   return (
     <Card className="card" sx={{ borderRadius: "15px" }}>
       <CardMedia
@@ -76,7 +79,8 @@ const Post = ({ post, setCurrentId }) => {
       <CardActions className="cardActions">
         <Button size="small" color="primary" onClick={increaseLikes}>
           <ThumbUpAltIcon fontSize="small" />
-          {post.likeCount} Likes 
+          &nbsp;
+          {post.likeCount} Likes
         </Button>
         <Button size="small" color="primary" onClick={handleDelete}>
           <DeleteIcon fontSize="small" />

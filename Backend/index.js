@@ -7,11 +7,12 @@ import connectDb from './config/DBConfig.js';
 //import all the routes
 import postRouter from './routes/posts.js'
 
-//the port will be in the ENV file once we deploy the project
-const PORT = process.env.PORT || 5000;
-
 //to use env file in our project
 dotenv.config();
+
+//the port will be in the ENV file once we deploy the project
+const PORT = process.env.PORT;
+
 
 //create the app
 const app = express();

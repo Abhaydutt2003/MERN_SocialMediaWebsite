@@ -1,10 +1,12 @@
-import { Container, AppBar, Typography, Grow, Grid } from "@mui/material";
-import someImage from "./images/SomeImage.png";
-import { Form, Posts } from "./components/index";
+import { Container, Grow, Grid } from "@mui/material";
+import { Form, Posts,NavBar } from "./components";
 import "./appTheme.css";
 import { useEffect, useState } from "react";
 import { setAllPostsAction } from "./actions/postActions";
 import { store } from "./store";
+
+import {ResGrid} from './styledComp';
+
 const App = () => {
   const [currentId,setCurrentId] = useState(null);
   useEffect(() => {
@@ -15,20 +17,10 @@ const App = () => {
 
   return (
     <Container maxWidth="lg">
-      <AppBar
-        sx={{ display: "flex", flexDirection: "row" }}
-        className="appBar"
-        position="static"
-        color="inherit"
-      >
-        <Typography className="heading" variant="h2" align="center">
-          Memories
-        </Typography>
-        <img className="image" src={someImage} alt="memories" height="50"></img>
-      </AppBar>
+      <NavBar></NavBar>
       <Grow in>
         <Container>
-          <Grid
+          <ResGrid
             container
             justify="space-between"
             alignItems="stretch"
@@ -40,7 +32,7 @@ const App = () => {
             <Grid item xs={12} sm={5}>
               <Form currentId = {currentId} setCurrentId = {setCurrentId}></Form>
             </Grid>
-          </Grid>
+          </ResGrid>
         </Container>
       </Grow>
     </Container>

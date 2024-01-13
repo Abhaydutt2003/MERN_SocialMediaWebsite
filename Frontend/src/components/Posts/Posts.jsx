@@ -10,7 +10,7 @@ const Posts = ({setCurrentId})=>{
        !posts.length ? <CircularProgress/> :(
         <Grid container alignItems='stretch' spacing={3}>
             {posts.map((post)=>{
-                return <Grid item key = {post._id} xs = {12} sm = {6}>
+                return <Grid item key = {post._id} xs = {12} sm = {11} md = {6}>
                     <Post setCurrentId = {setCurrentId} post = {post}></Post>
                 </Grid>
             })}

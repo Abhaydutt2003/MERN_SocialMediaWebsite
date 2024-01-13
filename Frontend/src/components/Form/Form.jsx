@@ -125,7 +125,7 @@ const Form = ({ currentId, setCurrentId }) => {
               label="tags"
               value={postData.tags}
               onChange={(event) =>
-                setPostData({ ...postData, tags: event.target.value })
+                setPostData({ ...postData, tags: event.target.value.split(',') })
               }
             ></TextField>
           </Grid>
