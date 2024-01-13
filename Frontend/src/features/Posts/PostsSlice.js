@@ -13,6 +13,7 @@ const postsSlice = createSlice({
     reducers:{
         setAllPosts:(state,action)=>{
             //reducer to set the state of the post
+            console.log(action.payload);
             state.posts = action.payload;
         },
         addPost:(state,action)=>{
