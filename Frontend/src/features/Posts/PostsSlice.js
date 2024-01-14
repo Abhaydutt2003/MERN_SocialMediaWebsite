@@ -4,7 +4,8 @@ import { createSlice } from "@reduxjs/toolkit";
 //should not store the base64 image here, i should store them in localstorage
 //by defualt redux uses memory to store the data of the slice
 const defaultState = {
-    posts : []
+    posts : [],
+    currentPostId:null
 }
 
 const postsSlice = createSlice({
@@ -19,6 +20,10 @@ const postsSlice = createSlice({
         addPost:(state,action)=>{
             //add the post after creating it 
             state.posts = [...state.posts,action.payload];
+        },
+        selectPost:(state,action)=>{
+            //reducer to select the post
+            state.currentPostId = action.payload;
         },
         updatePost:(state,action)=>{
             //update the post after finding it
@@ -50,7 +55,7 @@ const postsSlice = createSlice({
 });
 
 //export all the reducers for usage
-export const {setAllPosts,addPost,updatePost,deletePost,increaseLike} = postsSlice.actions;
+export const {setAllPosts,addPost,updatePost,deletePost,increaseLike,selectPost} = postsSlice.actions;
 
 export default postsSlice.reducer;
 

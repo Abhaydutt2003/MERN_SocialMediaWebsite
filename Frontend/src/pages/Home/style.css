@@ -1,0 +1,20 @@
+.appBar{
+    border-radius: 15px;
+    margin: 30px 0px;
+    justify-content: center;
+    align-items: center;
+}
+
+.heading{
+    color: rgba(0, 183,255,1);
+}
+
+
+.image{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 15px;
+    transform: rotate(-15deg);
+    border-radius: 15px;
+}
+

@@ -1,11 +1,11 @@
 import { Container, Grow, Grid } from "@mui/material";
 import { Form, Posts,NavBar } from "./components";
-import "./appTheme.css";
+// import "./appTheme.css";
 import { useEffect, useState } from "react";
 import { setAllPostsAction } from "./actions/postActions";
 import { store } from "./store";
 
-import {ResGrid} from './styledComp';
+// import {ResGrid} from './styledComp';
 
 const App = () => {
   const [currentId,setCurrentId] = useState(null);

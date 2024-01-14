@@ -14,4 +14,26 @@ export const intitalFetch = async()=>{
     }
 }
 
+//action to delete the post
+export const deletePostAction = async (currentId)=>{
+    try{
+        //update the backend
+        await customFetch.delete(`/${currentId}`);
+    }catch(error){
+        return console.log(error);
+    }
+}
+
+
+//action to update the likes on the post
+export const updateLikeAction = async(currentId)=>{
+    try{
+        await customFetch.patch(`/${currentId}/likePost`);
+      }catch(error){
+        return console.log(error);
+      }
+}
+
+
+
 

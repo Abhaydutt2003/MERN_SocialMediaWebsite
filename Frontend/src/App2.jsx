@@ -1,5 +1,5 @@
 import {RouterProvider,createBrowserRouter} from 'react-router-dom' 
-import {Home,Error,Posts} from './pages';
+import {Home,Error,Landing} from './pages';
 import {ErrorComp} from './components2';
 import {store} from './store';
 import {postsLoader} from './utils/Loaders';
@@ -12,9 +12,9 @@ const router = createBrowserRouter([
         children:[
             {
                 index:true,
-                element:<Posts></Posts>,
+                loader:postsLoader(store),
+                element:<Landing></Landing>,
                 errorElement:<ErrorComp></ErrorComp>,
-                loader:postsLoader(store)
             }
         ]
     }

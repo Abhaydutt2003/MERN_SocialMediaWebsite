@@ -8,4 +8,5 @@ import {setAllPosts} from '../features/Posts/PostsSlice';
 export const postsLoader = (store)=>async()=>{
     const data = await intitalFetch();
     store.dispatch(setAllPosts(data));
+    return null;
 }
