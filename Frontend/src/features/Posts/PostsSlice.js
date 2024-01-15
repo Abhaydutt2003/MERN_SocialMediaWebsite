@@ -35,13 +35,13 @@ const postsSlice = createSlice({
                 }
             });
             state.posts = updatedPosts;
+            state.currentPostId = null;
         },
         deletePost:(state,action)=>{
             //remove the post from the redux store
             let updatedPosts = state.posts.filter((post)=>{
                 return post._id != action.payload;
             });
-            console.log(updatedPosts);
             state.posts = updatedPosts;
         },
         increaseLike:(state,action)=>{

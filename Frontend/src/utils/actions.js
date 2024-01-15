@@ -14,6 +14,29 @@ export const intitalFetch = async()=>{
     }
 }
 
+//action to create a new Post
+export const createPostAction = async(formData)=>{
+    try{
+        //update the backend
+        const {data} = await customFetch.post("/", formData);
+        return data;
+    }catch(error){
+        return console.log(error);
+    }
+}
+
+//action to update a post
+export const updatePostAction = async(currentId,formData)=>{
+    try{
+        //update the backend
+        const {data} = await customFetch.patch(`/${currentId}`, formData);
+        return data;
+    }catch(error){
+        return console.log(error);
+    }
+}
+
+
 //action to delete the post
 export const deletePostAction = async (currentId)=>{
     try{

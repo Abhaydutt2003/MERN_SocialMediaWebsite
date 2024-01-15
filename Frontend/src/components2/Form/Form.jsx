@@ -1,31 +1,15 @@
 import { TextField, Button, Typography, Paper, Grid } from "@mui/material";
-import { useEffect, useState } from "react";
-import { convertBase64 } from "../../utils";
-import "./style.css";
-import {
-  createNewPost,
-  postUpdateAction,
-} from "../../actions/postActions";
-import { store } from "../../store";
-import { useDispatch, useSelector } from "react-redux";
-import {updatePost} from '../../features/Posts/PostsSlice';
 
-const Form = ({ currentId, setCurrentId }) => {
-  //fetch a particular post if we have a id provided
-  const { posts } = useSelector((state) => {
-    return state.postsState;
-  });
-  let post = posts.find((post) => {
-    if (post._id == currentId) {
-      return post;
-    } else {
-      return null;
-    }
-  });
-  useEffect(() => {
-    if (post) setPostData(post);
-  }, [post]);
-  //could have used FormData Api instead of state
+import { convertBase64 } from "../../utils/index";
+import "./style.css";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect,useState } from "react";
+
+import {createPostAction,updatePostAction} from '../../utils/actions';
+import {addPost,updatePost} from '../../features/Posts/PostsSlice';
+
+const Form = () => {
   const [postData, setPostData] = useState({
     creator: "",
     title: "",
@@ -33,25 +17,36 @@ const Form = ({ currentId, setCurrentId }) => {
     tags: "",
     selectedFile: "",
   });
+  //fetch a particular post if we have a id provided
+  const { posts, currentPostId } = useSelector((state) => {
+    return state.postsState;
+  });
+  //if have currentPostId, auto fill the form
+  useEffect(() => {
+    let post = posts.find((post) => {
+      if (post._id == currentPostId) {
+        return post;
+      } else {
+        return null;
+      }
+    });
+    if (post) setPostData(post);
+  }, [currentPostId]);
 
   const dispatch = useDispatch();
-  //function to handle the form submit
-  const handleSubmit = async (event) => {
-    //prevent the default behaviour
-    event.preventDefault();
-    if (currentId) {
-      //update the backend
-      const newPost = await postUpdateAction(store, postData, currentId)();
-      //update the redux store
-      dispatch(updatePost(newPost));
-    } else {
-      //create a new post using postActions
-      await createNewPost(store, postData)();
-    }
-    //clear the form after creating or upadating the post
-    clear();
-  };
 
+  //handle form submit
+  const handleSubmit = async(event)=>{
+    event.preventDefault();
+    if(currentPostId){
+        const data = await updatePostAction(currentPostId,postData);
+        dispatch(updatePost(data));
+    }else{
+        const data = await createPostAction(postData);
+        dispatch(addPost(data));
+    }
+    clear();
+  }
   //function to handle file input
   const handleInput = async (event) => {
     const files = event.target.files[0];
@@ -59,7 +54,6 @@ const Form = ({ currentId, setCurrentId }) => {
     //console.log(base64);
     setPostData({ ...postData, selectedFile: base64 });
   };
-
   //function to clear the form
   const clear = () => {
     setPostData({
@@ -70,7 +64,6 @@ const Form = ({ currentId, setCurrentId }) => {
       selectedFile: "",
     });
   };
-
   return (
     <Paper>
       <form
@@ -82,7 +75,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Grid alignItems="center">
           <Grid item>
             <Typography variant="h6">
-              {`${currentId ? "Editing " : "Creating "}`}a Memory
+              {`${currentPostId ? "Editing " : "Creating "}`}a Memory
             </Typography>
           </Grid>
           <Grid item>
@@ -152,7 +145,6 @@ const Form = ({ currentId, setCurrentId }) => {
                 size="small"
                 onClick={clear}
               >
-                {" "}
                 Clear
               </Button>
             </div>
@@ -161,9 +153,7 @@ const Form = ({ currentId, setCurrentId }) => {
       </form>
     </Paper>
   );
+
 };
 
 export default Form;
-
-//to style MUI components we will use styled components
-//for normal components we will use normal css
