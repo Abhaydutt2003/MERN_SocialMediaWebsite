@@ -7,11 +7,16 @@ import {store} from './store.js';
 
 import './index.css';
 
+//wrap the entire application in the provider for google o auth
+import {GoogleOAuthProvider} from '@react-oauth/google'; 
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
+    <GoogleOAuthProvider clientId={`${import.meta.local.env.GOOGLE_API_TOKEN}`}>
     <Provider store={store}>
     <App />
     </Provider>
+    </GoogleOAuthProvider>
   </React.StrictMode>,
 )
 

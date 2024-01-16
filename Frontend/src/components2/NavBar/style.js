@@ -1,5 +1,6 @@
-import { AppBar,Typography } from "@mui/material";
+import { AppBar,Typography,Toolbar,Avatar } from "@mui/material";
 import styled from "@emotion/styled";
+import { deepPurple } from "@mui/material/colors";
 
 
 
@@ -21,6 +22,21 @@ export const MyTypography = styled(Typography)(()=>{
     }
 });
 
+
+export const MyToolbar =styled(Toolbar)(()=>{
+    return{
+        display:'flex',
+        justifyContent:'flex-end',
+        width:'400px'
+    }
+});
+
+export const MyAvatar = styled(Avatar)(({theme})=>{
+    return{
+        color:theme.palette.getContrastText(deepPurple[500]),
+        backgroundColor:deepPurple[500]
+    }
+})
 
 
 

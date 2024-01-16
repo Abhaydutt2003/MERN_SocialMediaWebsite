@@ -1,0 +1,6 @@
+/* Material ui uses a 8px scaling factor */
+
+.form{
+    width: '100%';
+    margin-top: 16px;
+}

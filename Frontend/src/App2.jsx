@@ -1,5 +1,5 @@
 import {RouterProvider,createBrowserRouter} from 'react-router-dom' 
-import {Home,Error,Landing} from './pages';
+import {Home,Error,Landing,Auth} from './pages';
 import {ErrorComp} from './components2';
 import {store} from './store';
 import {postsLoader} from './utils/Loaders';
@@ -15,6 +15,11 @@ const router = createBrowserRouter([
                 loader:postsLoader(store),
                 element:<Landing></Landing>,
                 errorElement:<ErrorComp></ErrorComp>,
+            },
+            {
+                path:'/auth',
+                element:<Auth></Auth>,
+                errorElement:<ErrorComp></ErrorComp>
             }
         ]
     }
