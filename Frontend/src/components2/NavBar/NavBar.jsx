@@ -1,10 +1,16 @@
-import { MyAppBar, MyTypography, MyToolbar, MyAvatar } from "./style";
+import { MyAppBar, MyTypography, MyToolbar } from "./style";
 import "./style.css";
-import { Button, Typography } from "@mui/material";
+import { Avatar, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import {useSelector} from 'react-redux';
+import { deepPurple } from "@mui/material/colors";
+//import { useState } from "react";
 
 const NavBar = () => {
-  const user = null;
+  const {user:currentUser} = useSelector((state)=>{
+    return state.userState;
+  });
+  const user = currentUser;
   //to navigate to other page using react router
   const navigate = useNavigate();
   return (
@@ -17,15 +23,15 @@ const NavBar = () => {
       <MyToolbar>
         {user ? (
           <div className="profile">
-            <MyAvatar alt={user.result.name} src={user.result.imageUrl}>
-              {user.result.name.charAt(0)}
-            </MyAvatar>
+            <Avatar sx = {{color:(theme=>theme.palette.getContrastText(deepPurple[500]))}} alt='Some uSER' src={''}>
+              {'S'}
+            </Avatar>
             {/* User sx prop becuase of the relatively low styles */}
             <Typography
               sx={{ display: "flex", alignItems: "center" }}
               variant="h6"
             >
-              {user.result.name}
+              {'ASDASD'}
             </Typography>
             <Button variant="contained" color="secondary">
               Logout

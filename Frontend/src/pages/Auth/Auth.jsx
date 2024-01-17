@@ -2,13 +2,24 @@ import { Container, Typography, Button, Avatar, Grid } from "@mui/material";
 import { MyPaper } from "./style";
 import LockIcon from "@mui/icons-material/Lock";
 import { Input } from "../../components2";
-
+import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import "./style.css";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { googleloginReducer } from "../../features/User/UserSlice";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
-const Auth = () => {  
+const Auth = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {user:currentUser} = useSelector((state)=>{
+    return state.userState;
+  });
+  const [user,setUser] = useState(currentUser);
+
   //state to show sign in or sign up form
-  const [isSignUp,setIsSignUp] = useState(false);
+  const [isSignUp, setIsSignUp] = useState(false);
 
   //state to show or not show the password
   const [showPassword, setShowPassword] = useState(false);
@@ -26,18 +37,21 @@ const Auth = () => {
 
   //handle switching between the type of forms
   const switchMode = () => {
-    setIsSignUp((prevIsSignUp)=>!prevIsSignUp);
+    setIsSignUp((prevIsSignUp) => !prevIsSignUp);
     handleShowPassword(false);
   };
 
   //handle google login
-  const googleError = ()=>{
-    alert('Google Sign In was unseccessful. Try again later');
-  }
+  const googleError = () => {
+    alert("Google Sign In was unseccessful. Try again later");
+  };
 
-  const googleSuccess = ()=>{
-
-  }
+  const googleSuccess = (res) => {
+    //call the reducer to login the user
+    let decoded = jwtDecode(res.credential);
+    dispatch(googleloginReducer(decoded));
+    navigate('/');
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -52,7 +66,7 @@ const Auth = () => {
         </Avatar>
         <Typography variant="h5">{isSignUp ? "Sign Up" : "Sign In"}</Typography>
         <form className="form" onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
+          <Grid container spacing={2} sx={{ marginBottom: "16px" }}>
             {isSignUp && (
               <>
                 <Input
@@ -86,12 +100,16 @@ const Auth = () => {
             {isSignUp && (
               <Input
                 name="confirmPassword"
-                label="Reapeat Password"
+                label="Repeat Password"
                 handleChange={handleChange}
                 type="password"
               ></Input>
             )}
           </Grid>
+          <GoogleLogin
+            onSuccess={googleSuccess}
+            onError={googleError}
+          ></GoogleLogin>
           <Button
             sx={{ margin: "24px 0px 16px" }}
             type="submit"
