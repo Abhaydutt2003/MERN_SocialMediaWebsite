@@ -27,10 +27,11 @@ app.use(cors());
 //middleware for recognizing the incoming request object as JSON object
 app.use(express.json({limit:"30mb",extended:true}));
 //used to parse the data in req.body, used for POST and PUT request
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({limit:'30mb', extended: false }));
 
 //use the route handlers
 app.use('/posts',postRouter);
+
 
 
 

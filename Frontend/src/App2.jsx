@@ -3,6 +3,7 @@ import {Home,Error,Landing,Auth} from './pages';
 import {ErrorComp} from './components2';
 import {store} from './store';
 import {postsLoader} from './utils/Loaders';
+import {loginUserAction} from './utils/actions';
 
 const router = createBrowserRouter([
     {
@@ -19,7 +20,8 @@ const router = createBrowserRouter([
             {
                 path:'/auth',
                 element:<Auth></Auth>,
-                errorElement:<ErrorComp></ErrorComp>
+                errorElement:<ErrorComp></ErrorComp>,
+                action:loginUserAction(store)
             }
         ]
     }

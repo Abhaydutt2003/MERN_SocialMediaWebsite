@@ -9,31 +9,29 @@ import { useDispatch, useSelector } from "react-redux";
 import { googleloginReducer } from "../../features/User/UserSlice";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { Form } from "react-router-dom";
 
 const Auth = () => {
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {user:currentUser} = useSelector((state)=>{
     return state.userState;
   });
   const [user,setUser] = useState(currentUser);
-
+  
   //state to show sign in or sign up form
   const [isSignUp, setIsSignUp] = useState(false);
-
+  
   //state to show or not show the password
   const [showPassword, setShowPassword] = useState(false);
+  
+  //TODO, edge case, if the user is already logged in
 
-  //function to show the password, or not
+    //function to show the password, or not
   const handleShowPassword = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
-
-  //function to handle the form submit
-  const handleSubmit = () => {};
-
-  //function to handle change in the input fields
-  const handleChange = () => {};
 
   //handle switching between the type of forms
   const switchMode = () => {
@@ -65,21 +63,19 @@ const Auth = () => {
           <LockIcon></LockIcon>
         </Avatar>
         <Typography variant="h5">{isSignUp ? "Sign Up" : "Sign In"}</Typography>
-        <form className="form" onSubmit={handleSubmit}>
+        <Form method="POST">
           <Grid container spacing={2} sx={{ marginBottom: "16px" }}>
             {isSignUp && (
               <>
                 <Input
-                  name="firstname"
+                  name="firstName"
                   label="First Name"
-                  handleChange={handleChange}
                   autoFocus
                   half
                 ></Input>
                 <Input
-                  name="lastname"
+                  name="lastName"
                   label="Last Name"
-                  handleChange={handleChange}
                   half
                 ></Input>
               </>
@@ -87,13 +83,11 @@ const Auth = () => {
             <Input
               name="email"
               label="Email Address"
-              handleChange={handleChange}
               type="email"
             ></Input>
             <Input
               name="password"
               label="Password"
-              handleChange={handleChange}
               type={showPassword ? "text" : "password"}
               handleShowPassword={handleShowPassword}
             ></Input>
@@ -101,7 +95,6 @@ const Auth = () => {
               <Input
                 name="confirmPassword"
                 label="Repeat Password"
-                handleChange={handleChange}
                 type="password"
               ></Input>
             )}
@@ -128,7 +121,7 @@ const Auth = () => {
               </Button>
             </Grid>
           </Grid>
-        </form>
+        </Form>
       </MyPaper>
     </Container>
   );

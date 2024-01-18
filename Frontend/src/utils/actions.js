@@ -58,5 +58,14 @@ export const updateLikeAction = async(currentId)=>{
 }
 
 
+//action to login the user
+export const loginUserAction = (store)=>async({request})=>{
+    console.log('helo');
+    const formData = await request.formData();
+    const data = Object.fromEntries(formData);
+    console.log(data);
+}
+
+
 
 
